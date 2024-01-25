@@ -27,6 +27,24 @@ movieRouter.get("/", async (req, res) => {
     }
 });
 
+// To get Single Movie
+movieRouter.get("/:movieID", async (req, res) => {
+    const { movieID } = req.params;
+
+    try {
+        const movie = await movieModel.findById(movieID);
+
+        if (movie) {
+            res.json({ msg: "Movie details", movie });
+        } else {
+            res.status(404).json({ msg: "Movie not found" });
+        }
+    } catch (error) {
+        console.error("Error getting movie:", error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // To Update Movie
 movieRouter.patch("/update/:movieID", async (req, res) => {
     const { movieID } = req.params;
